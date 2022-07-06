@@ -83,7 +83,7 @@ async def tarkyadd(ctx, channel):
         connection.close()
         # Tell the user the channel was added'
         new_channel = bot.get_channel(int(channel))
-        await channel.send("This channel will now get patch notes from Escape from Tarkov!")
+        await new_channel.send("This channel will now get patch notes from Escape from Tarkov!")
         await ctx.respond(f'Added channel {channel} to the list of channels to watch for patch notes!')
 
 
