@@ -99,4 +99,7 @@ class PatchNotes(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(PatchNotes(bot))
+    try:
+        bot.add_cog(PatchNotes(bot))
+    except:
+        sentry_sdk.capture_exception()
