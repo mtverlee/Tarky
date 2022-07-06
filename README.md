@@ -1,5 +1,7 @@
 # Tarky
 
+![Bot](https://github.com/mtverlee/Tarky/blob/master/img/icon.png?raw=true)
+
 A simple bot to automatically post Escape from Tarkov patch notes in a Discord server.
 
 ## Installation
@@ -16,15 +18,9 @@ A simple bot to automatically post Escape from Tarkov patch notes in a Discord s
 - Add a Heroku Postgres resource to the project you just created and set your `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, and `POSTGRES_DATABASE` environment variables accordingly.
 - Run `python3 setup.py` using the same local environment variables to set up the database tables.
 - Deploy the project!
-  c
 
 ## Usage
 
 - `/tarkyadd <channelID>` to add a channel to post patch notes to.
 - `/tarkyremove <channelID>` to remove a channel that is recieving patch notes.
 - `/tarkynews` to get a link to Escape from Tarkov news.
-
-## Screenshots
-
-![Bot](https://github.com/mtverlee/Tarky/blob/master/img/bot.png?raw=true)
-![Bot activity](https://github.com/mtverlee/Tarky/blob/master/img/bot-activity.png?raw=true)
