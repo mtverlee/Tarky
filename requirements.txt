@@ -1,0 +1,7 @@
+py-cord==2.0.0rc1
+python-dotenv
+requests
+beautifulsoup4
+asyncio
+sentry-sdk
+psycopg2-binary
