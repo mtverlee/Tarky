@@ -60,7 +60,7 @@ class PatchNotes(commands.Cog):
                     rows = cursor.rowcount
                     if rows > 0:
                         link = link_element['href']
-                        print(f'Skipped: {link}')
+                        print(f'Skipped patch: {link}')
                         pass
                     else:  # If we haven't processed the update, add it to the database
                         date = datetime.datetime.now()
@@ -92,7 +92,7 @@ class PatchNotes(commands.Cog):
                                 await channel.send(embed=embed)
                                 link = link_element['href']
                                 print(
-                                    f'Message: {link} sent to channel {str(row[0])}')
+                                    f'Sent {link} to channel: {str(row[0])}')
                             except:
                                 print(
                                     f'Error sending message to channel: {str(row[0])}')
