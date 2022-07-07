@@ -65,7 +65,7 @@ async def on_guild_join(guild):
 
 # When the bot leaves a server, run this function
 @bot.event
-async def on_guild_leave(guild):
+async def on_guild_remove(guild):
     connection = connectToDatabase()
     guild_string = str(guild.id)
     date = datetime.datetime.now()
@@ -75,6 +75,9 @@ async def on_guild_leave(guild):
     rows = cursor.rowcount
     if rows > 0:
         cursor.execute("DELETE FROM guilds WHERE guild_id = %s",
+                       (guild_string,))
+        connection.commit()
+        cursor.execute("DELETE FROM channels WHERE guild_id = %s",
                        (guild_string,))
         connection.commit()
         cursor.close()
@@ -89,6 +92,7 @@ async def on_guild_leave(guild):
 # Set up add channel command
 @bot.slash_command(name="tarkyadd", description="Add a channel to the database")
 async def tarkyadd(ctx, channel):
+    guild = int(ctx.guild.id)
     connection = connectToDatabase()
     cursor = connection.cursor()
     cursor.execute(
@@ -100,8 +104,8 @@ async def tarkyadd(ctx, channel):
     else:
         date = datetime.datetime.now()
         # If we haven't added the channel, add it to the database
-        cursor.execute("INSERT INTO channels (channel_id, date) VALUES (%s, %s)",
-                       (int(channel), date))
+        cursor.execute("INSERT INTO channels (channel_id, guild_id, date) VALUES (%s, %s, %s)",
+                       (int(channel), guild, date))
         connection.commit()
         cursor.close()
         connection.close()

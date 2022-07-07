@@ -20,7 +20,7 @@ def setupDatabase():
         "CREATE TABLE guilds (id serial, guild_id text, name text, date timestamp)")
     connection.commit()
     cursor.execute(
-        "CREATE TABLE channels (id serial, channel_id text, date timestamp)")
+        "CREATE TABLE channels (id serial, channel_id text, guild_id text, date timestamp)")
     connection.commit()
     connection.close()  # Close connection to databbase
 
