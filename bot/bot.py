@@ -63,6 +63,29 @@ async def on_guild_join(guild):
         print(f'Joined a new guild: {guild.name} ({guild.id})')
 
 
+# When the bot leaves a server, run this function
+@bot.event
+async def on_guild_leave(guild):
+    connection = connectToDatabase()
+    guild_string = str(guild.id)
+    date = datetime.datetime.now()
+    cursor = connection.cursor()
+    cursor.execute(
+        "SELECT guild_id FROM guilds WHERE guild_id = %s", (guild_string,))
+    rows = cursor.rowcount
+    if rows > 0:
+        cursor.execute("DELETE FROM guilds WHERE guild_id = %s",
+                       (guild_string,))
+        connection.commit()
+        cursor.close()
+        connection.close()
+        print(f'Removed guild: {guild.name} ({guild.id})')
+    else:
+        cursor.close()
+        connection.close()
+        print(f'Skipped removing guild: {guild.name} ({guild.id})')
+
+
 # Set up add channel command
 @bot.slash_command(name="tarkyadd", description="Add a channel to the database")
 async def tarkyadd(ctx, channel):
