@@ -60,7 +60,7 @@ class PatchNotes(commands.Cog):
                     rows = cursor.rowcount
                     if rows > 0:
                         link = link_element['href']
-                        print(f'Skipped patch: {link}')
+                        print(f'Skipped adding patch {link} to database')
                         pass
                     else:  # If we haven't processed the update, add it to the database
                         date = datetime.datetime.now()
@@ -68,7 +68,7 @@ class PatchNotes(commands.Cog):
                             "INSERT INTO patchnotes (patch_id, url, date) VALUES (%s, %s, %s)", (link_element['href'], url, date,))
                         connection.commit()  # Write changes to database
                         link = link_element['href']
-                        print(f'Added patch: {link}')
+                        print(f'Added patch {link} to database')
                         # Get the content of the update
                         notes_page = requests.get(url)
                         notes_soup = BeautifulSoup(
@@ -92,10 +92,10 @@ class PatchNotes(commands.Cog):
                                 await channel.send(embed=embed)
                                 link = link_element['href']
                                 print(
-                                    f'Sent {link} to channel: {str(row[0])}')
+                                    f'Sent {link} to channel {str(row[0])}')
                             except:
                                 print(
-                                    f'Error sending message to channel: {str(row[0])}')
+                                    f'Error sending message to channel {str(row[0])}')
                                 pass
         cursor.close()  # Close cursor
         connection.close()  # Close connection to database
