@@ -97,53 +97,59 @@ async def on_guild_remove(guild):
 # Set up add channel command
 @bot.slash_command(name="tarkyadd", description="Add a channel to the database")
 async def tarkyadd(ctx, channel):
-    guild = int(ctx.guild.id)
-    connection = connectToDatabase()
-    cursor = connection.cursor()
-    cursor.execute(
-        "SELECT id FROM channels WHERE channel_id = %s", (channel,))  # Get a list of channels from the database to see if we already have added it
-    rows = cursor.rowcount
-    if rows > 0:
-        # If we already added the channel, tell the user
-        print(f'Skipped adding channel {channel} to database')
-        await ctx.respond("Channel already added!")
+    if ctx.author.guild_permissions.administrator:
+        guild = int(ctx.guild.id)
+        connection = connectToDatabase()
+        cursor = connection.cursor()
+        cursor.execute(
+            "SELECT id FROM channels WHERE channel_id = %s", (channel,))  # Get a list of channels from the database to see if we already have added it
+        rows = cursor.rowcount
+        if rows > 0:
+            # If we already added the channel, tell the user
+            print(f'Skipped adding channel {channel} to database')
+            await ctx.respond("Channel already added!")
+        else:
+            date = datetime.datetime.now()
+            # If we haven't added the channel, add it to the database
+            cursor.execute("INSERT INTO channels (channel_id, guild_id, date) VALUES (%s, %s, %s)",
+                           (int(channel), guild, date))
+            connection.commit()
+            cursor.close()
+            connection.close()
+            # Tell the user the channel was added'
+            new_channel = bot.get_channel(int(channel))
+            print(f'Added channel {channel} to database')
+            await new_channel.send("This channel will now get patch notes from Escape from Tarkov!")
+            await ctx.respond(f'Added channel {channel} to the list of channels to watch for patch notes!')
     else:
-        date = datetime.datetime.now()
-        # If we haven't added the channel, add it to the database
-        cursor.execute("INSERT INTO channels (channel_id, guild_id, date) VALUES (%s, %s, %s)",
-                       (int(channel), guild, date))
-        connection.commit()
-        cursor.close()
-        connection.close()
-        # Tell the user the channel was added'
-        new_channel = bot.get_channel(int(channel))
-        print(f'Added channel {channel} to database')
-        await new_channel.send("This channel will now get patch notes from Escape from Tarkov!")
-        await ctx.respond(f'Added channel {channel} to the list of channels to watch for patch notes!')
+        await ctx.respond('You do not have permission to use this command!')
 
 
 # Set up add channel command
 @bot.slash_command(name="tarkyremove", description="Remove a channel from the database")
 async def tarkyremove(ctx, channel):
-    connection = connectToDatabase()
-    cursor = connection.cursor()
-    cursor.execute(
-        "SELECT id FROM channels WHERE channel_id = %s", (channel,))  # Get a list of channels from the database to see if we already have added it
-    rows = cursor.rowcount
-    if rows == 0:
-        # If we can't find the channel, tell the user
-        print(f'Skipped removing channel {channel} to database')
-        await ctx.respond("Channel not found!")
+    if ctx.author.guild_permissions.administrator:
+        connection = connectToDatabase()
+        cursor = connection.cursor()
+        cursor.execute(
+            "SELECT id FROM channels WHERE channel_id = %s", (channel,))  # Get a list of channels from the database to see if we already have added it
+        rows = cursor.rowcount
+        if rows == 0:
+            # If we can't find the channel, tell the user
+            print(f'Skipped removing channel {channel} to database')
+            await ctx.respond("Channel not found!")
+        else:
+            # If we have added the channel, remove it from the database
+            cursor.execute("DELETE FROM channels WHERE channel_id = %s",
+                           (channel,))
+            connection.commit()
+            cursor.close()
+            connection.close()
+            # Tell the user the channel was removed
+            print(f'Removed channel {channel} from database')
+            await ctx.respond(f'Removed channel {channel} from the list of channels to watch for patch notes!')
     else:
-        # If we have added the channel, remove it from the database
-        cursor.execute("DELETE FROM channels WHERE channel_id = %s",
-                       (channel,))
-        connection.commit()
-        cursor.close()
-        connection.close()
-        # Tell the user the channel was removed
-        print(f'Removed channel {channel} from database')
-        await ctx.respond(f'Removed channel {channel} from the list of channels to watch for patch notes!')
+        await ctx.respond('You do not have permission to use this command!')
 
 
 # Set up last patch command
