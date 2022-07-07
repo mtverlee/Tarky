@@ -168,7 +168,7 @@ async def tarkylast(ctx):
                      for index in range(0, len(notes_elements.text), 1500)]  # Limit the content of the update to 1500 characters
     notes = notes_strings[0] + '...'
     embed = discord.Embed(title=title_element.text, url=url,
-                          description=notes, color=discord.Color.dark_gray())  # Generate the Discord embed
+                          description=notes, color=discord.Color.dark_green())  # Generate the Discord embed
     embed.set_thumbnail(
         url='https://web-store.escapefromtarkov.com/themes/eft/images/bs_logo.png')
     embed.set_image(
@@ -181,7 +181,7 @@ async def tarkylast(ctx):
 @ bot.slash_command(name="tarkynews", description="Get the Escape from Tarkov news")
 async def tarkynews(ctx):
     newsembed = discord.Embed(title='News', url='https://www.escapefromtarkov.com/news',
-                              description='Find information about Escape from Tarkov here.', color=discord.Color.dark_gray())  # Generate Discord embed
+                              description='Find information about Escape from Tarkov here.', color=discord.Color.dark_green())  # Generate Discord embed
     newsembed.set_thumbnail(
         url='https://web-store.escapefromtarkov.com/themes/eft/images/bs_logo.png')
     newsembed.set_image(
