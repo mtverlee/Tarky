@@ -60,7 +60,7 @@ class PatchNotes(commands.Cog):
                     rows = cursor.rowcount
                     if rows > 0:
                         link = link_element['href']
-                        print('Skipped: {link}')
+                        print(f'Skipped: {link}')
                         pass
                     else:  # If we haven't processed the update, add it to the database
                         date = datetime.datetime.now()
@@ -68,7 +68,7 @@ class PatchNotes(commands.Cog):
                             "INSERT INTO patchnotes (patch_id, url, date) VALUES (%s, %s, %s)", (link_element['href'], url, date,))
                         connection.commit()  # Write changes to database
                         link = link_element['href']
-                        print('Added: {link}')
+                        print(f'Added: {link}')
                         # Get the content of the update
                         notes_page = requests.get(url)
                         notes_soup = BeautifulSoup(
