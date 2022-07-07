@@ -61,6 +61,7 @@ class PatchNotes(commands.Cog):
                     if rows > 0:
                         link = link_element['href']
                         print(f'Skipped adding patch {link} to database')
+                        print(f'Skipped sending patch {link} to channels')
                         pass
                     else:  # If we haven't processed the update, add it to the database
                         date = datetime.datetime.now()
