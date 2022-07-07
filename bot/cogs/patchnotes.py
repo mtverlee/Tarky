@@ -39,6 +39,8 @@ class PatchNotes(commands.Cog):
     @tasks.loop(seconds=900.0)
     async def getPatchNotes(self):
         await self.bot.wait_until_ready()
+        time = datetime.datetime.now()
+        print(f'Checking for patch notes ({time})')
         load_dotenv()  # Load environment variables
         feed_page = requests.get(
             'https://www.escapefromtarkov.com/news/page/1')  # Get the feed page

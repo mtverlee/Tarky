@@ -174,7 +174,7 @@ async def tarkylast(ctx):
         url='https://web-store.escapefromtarkov.com/themes/eft/images/bs_logo.png')
     embed.set_image(
         url='https://web-store.escapefromtarkov.com/themes/eft/images/logo.png')
-    print(f'Sent {ctx.author.name} patch note {title_element.text}')
+    print(f'Sent {ctx.author.name} patch titled {title_element.text}')
     await ctx.respond(embed=embed)  # Send the embed back to the user
 
 
