@@ -54,7 +54,7 @@ async def on_guild_join(guild):
         cursor.close()
         connection.close()
         # If the guild is already in the database, skip it and notify the user
-        print(f'Skipped guild: {guild.name} ({guild.id})')
+        print(f'Skipped guild:  {guild.name} ({guild.id})')
     else:
         cursor.execute("INSERT INTO guilds (guild_id, name, date) VALUES (%s, %s, %s)",
                        (guild.id, guild.name, date))
@@ -62,7 +62,7 @@ async def on_guild_join(guild):
         cursor.close()
         connection.close()
         # If the guild is not in the database, add it and notify the user
-        print(f'Joined a new guild: {guild.name} ({guild.id})')
+        print(f'Joined a new guild:  {guild.name} ({guild.id})')
 
 
 # When the bot leaves a server, run this function
@@ -85,12 +85,12 @@ async def on_guild_remove(guild):
         cursor.close()
         connection.close()
         # If the guild is in the database, remove it and corresponding channels, then notify the user
-        print(f'Removed guild: {guild.name} ({guild.id})')
+        print(f'Removed guild:  {guild.name} ({guild.id})')
     else:
         cursor.close()
         connection.close()
         # If the guild is not in the database, skip it and notify the user
-        print(f'Skipped removing guild: {guild.name} ({guild.id})')
+        print(f'Skipped removing guild:  {guild.name} ({guild.id})')
 
 
 # Set up add channel command
