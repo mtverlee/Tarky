@@ -8,7 +8,7 @@ A simple bot to automatically post Escape from Tarkov patch notes in a Discord s
 
 ### Easy (Invite)
 
-- [Invite](https://discord.com/api/oauth2/authorize?client_id=992125091204837398&permissions=326417770496&scope=bot)
+- [Invite](https://discord.com/api/oauth2/authorize?client_id=992125091204837398&permissions=328565255168&scope=bot applications.commands)
 - Run `/tarkychannel <channelID>` to add your channel or thread to the bot. This channel will get updates as patch notes become available.
 
 ### Hard (Self-host)
