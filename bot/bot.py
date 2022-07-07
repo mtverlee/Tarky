@@ -44,10 +44,11 @@ async def on_ready():
 @bot.event
 async def on_guild_join(guild):
     connection = connectToDatabase()
+    guild_string = str(guild.id)
     date = datetime.datetime.now()
     cursor = connection.cursor()
     cursor.execute(
-        "SELECT guild_id FROM guilds WHERE guild_id = %s", (guild.id,))
+        "SELECT guild_id FROM guilds WHERE guild_id = %s", (guild_string,))
     rows = cursor.rowcount
     if rows > 0:
         cursor.close()
