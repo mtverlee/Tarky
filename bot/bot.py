@@ -43,16 +43,17 @@ async def on_ready():
 # When the bot joins a server, run this function
 @bot.event
 async def on_guild_join(guild):
-    connection = connectToDatabase()
+    connection = connectToDatabase()  # Connect to database
     guild_string = str(guild.id)
     date = datetime.datetime.now()
     cursor = connection.cursor()
     cursor.execute(
-        "SELECT guild_id FROM guilds WHERE guild_id = %s", (guild_string,))
+        "SELECT guild_id FROM guilds WHERE guild_id = %s", (guild_string,))  # Look to see if the guild we're joining is already in the database
     rows = cursor.rowcount
     if rows > 0:
         cursor.close()
         connection.close()
+        # If the guild is already in the database, skip it and notify the user
         print(f'Skipped guild: {guild.name} ({guild.id})')
     else:
         cursor.execute("INSERT INTO guilds (guild_id, name, date) VALUES (%s, %s, %s)",
@@ -60,18 +61,19 @@ async def on_guild_join(guild):
         connection.commit()
         cursor.close()
         connection.close()
+        # If the guild is not in the database, add it and notify the user
         print(f'Joined a new guild: {guild.name} ({guild.id})')
 
 
 # When the bot leaves a server, run this function
 @bot.event
 async def on_guild_remove(guild):
-    connection = connectToDatabase()
+    connection = connectToDatabase()  # Connect to database
     guild_string = str(guild.id)
     date = datetime.datetime.now()
     cursor = connection.cursor()
     cursor.execute(
-        "SELECT guild_id FROM guilds WHERE guild_id = %s", (guild_string,))
+        "SELECT guild_id FROM guilds WHERE guild_id = %s", (guild_string,))  # Look to see if the guild we're leaving is already in the database
     rows = cursor.rowcount
     if rows > 0:
         cursor.execute("DELETE FROM guilds WHERE guild_id = %s",
@@ -82,10 +84,12 @@ async def on_guild_remove(guild):
         connection.commit()
         cursor.close()
         connection.close()
+        # If the guild is in the database, remove it and corresponding channels, then notify the user
         print(f'Removed guild: {guild.name} ({guild.id})')
     else:
         cursor.close()
         connection.close()
+        # If the guild is not in the database, skip it and notify the user
         print(f'Skipped removing guild: {guild.name} ({guild.id})')
 
 
@@ -140,21 +144,21 @@ async def tarkyremove(ctx, channel):
 # Set up last patch command
 @bot.slash_command(name="tarkylast", description="Get the last patch notes")
 async def tarkylast(ctx):
-    connection = connectToDatabase()
+    connection = connectToDatabase()  # Connect to database
     cursor = connection.cursor()
     cursor.execute(
         "SELECT patch_id FROM patchnotes ORDER BY id DESC LIMIT 1")
-    rows = cursor.fetchone()
+    rows = cursor.fetchone()  # Get the last patch ID
     url = 'https://www.escapefromtarkov.com' + rows[0]
     notes_page = requests.get(url)
     notes_soup = BeautifulSoup(
         notes_page.content, 'html.parser')
     notes_elements = notes_soup.find(
-        "div", class_="article")
+        "div", class_="article")  # Get the content of the patch note
     title_page = requests.get(url)
     title_soup = BeautifulSoup(
         title_page.content, 'html.parser')
-    title_element = title_soup.find("h1")
+    title_element = title_soup.find("h1")  # Get the title of the patch note
     notes_strings = [notes_elements.text[index: index + 1500]
                      for index in range(0, len(notes_elements.text), 1500)]  # Limit the content of the update to 1500 characters
     notes = notes_strings[0] + '...'
@@ -164,7 +168,7 @@ async def tarkylast(ctx):
         url='https://web-store.escapefromtarkov.com/themes/eft/images/bs_logo.png')
     embed.set_image(
         url='https://web-store.escapefromtarkov.com/themes/eft/images/logo.png')
-    await ctx.respond(embed=embed)
+    await ctx.respond(embed=embed)  # Send the embed back to the user
 
 
 # Set up news command
@@ -176,7 +180,7 @@ async def tarkynews(ctx):
         url='https://web-store.escapefromtarkov.com/themes/eft/images/bs_logo.png')
     newsembed.set_image(
         url='https://web-store.escapefromtarkov.com/themes/eft/images/logo.png')
-    await ctx.respond(embed=newsembed)  # Post the embed to the channel)
+    await ctx.respond(embed=newsembed)  # Send the embed back to the user
 
 # Run bot
 try:

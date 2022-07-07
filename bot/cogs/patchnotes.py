@@ -72,7 +72,7 @@ class PatchNotes(commands.Cog):
                         notes_soup = BeautifulSoup(
                             notes_page.content, 'html.parser')
                         notes_elements = notes_soup.find(
-                            "div", class_="article")
+                            "div", class_="article")  # Get the content of the patch note
                         notes_strings = [notes_elements.text[index: index + 1500]
                                          for index in range(0, len(notes_elements.text), 1500)]  # Limit the content of the update to 1500 characters
                         notes = notes_strings[0] + '...'
