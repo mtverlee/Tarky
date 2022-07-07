@@ -68,7 +68,7 @@ class PatchNotes(commands.Cog):
                             "INSERT INTO patchnotes (patch_id, url, date) VALUES (%s, %s, %s)", (link_element['href'], url, date,))
                         connection.commit()  # Write changes to database
                         link = link_element['href']
-                        print(f'Added: {link}')
+                        print(f'Added patch: {link}')
                         # Get the content of the update
                         notes_page = requests.get(url)
                         notes_soup = BeautifulSoup(
