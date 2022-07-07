@@ -104,6 +104,7 @@ async def tarkyadd(ctx, channel):
     rows = cursor.rowcount
     if rows > 0:
         # If we already added the channel, tell the user
+        print('Skipped adding channel: ', channel)
         await ctx.respond("Channel already added!")
     else:
         date = datetime.datetime.now()
@@ -115,6 +116,7 @@ async def tarkyadd(ctx, channel):
         connection.close()
         # Tell the user the channel was added'
         new_channel = bot.get_channel(int(channel))
+        print('Added channel: ', channel)
         await new_channel.send("This channel will now get patch notes from Escape from Tarkov!")
         await ctx.respond(f'Added channel {channel} to the list of channels to watch for patch notes!')
 
@@ -129,6 +131,7 @@ async def tarkyremove(ctx, channel):
     rows = cursor.rowcount
     if rows == 0:
         # If we can't find the channel, tell the user
+        print('Skipped removing channel: ', channel)
         await ctx.respond("Channel not found!")
     else:
         # If we have added the channel, remove it from the database
@@ -138,6 +141,7 @@ async def tarkyremove(ctx, channel):
         cursor.close()
         connection.close()
         # Tell the user the channel was removed
+        print('Removed channel: ', channel)
         await ctx.respond(f'Removed channel {channel} from the list of channels to watch for patch notes!')
 
 
@@ -168,6 +172,7 @@ async def tarkylast(ctx):
         url='https://web-store.escapefromtarkov.com/themes/eft/images/bs_logo.png')
     embed.set_image(
         url='https://web-store.escapefromtarkov.com/themes/eft/images/logo.png')
+    print(f'Sent {ctx.author.name} last patch notes: {title_element}')
     await ctx.respond(embed=embed)  # Send the embed back to the user
 
 
