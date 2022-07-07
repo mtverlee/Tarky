@@ -84,7 +84,7 @@ class PatchNotes(commands.Cog):
                             url='https://web-store.escapefromtarkov.com/themes/eft/images/bs_logo.png')
                         embed.set_image(
                             url='https://web-store.escapefromtarkov.com/themes/eft/images/logo.png')
-                        cursor.execute("SELECT id FROM channels")
+                        cursor.execute("SELECT channel_id FROM channels")
                         rows = cursor.fetchall()
                         for row in rows:
                             try:
