@@ -169,6 +169,7 @@ async def tarkylast(ctx):
     notes = notes_strings[0] + '...'
     embed = discord.Embed(title=title_element.text, url=url,
                           description=notes, color=discord.Color.dark_green())  # Generate the Discord embed
+    embed.set_author(name="Escape from Tarkov")
     embed.set_thumbnail(
         url='https://web-store.escapefromtarkov.com/themes/eft/images/bs_logo.png')
     embed.set_image(
@@ -182,6 +183,7 @@ async def tarkylast(ctx):
 async def tarkynews(ctx):
     newsembed = discord.Embed(title='News', url='https://www.escapefromtarkov.com/news',
                               description='Find information about Escape from Tarkov here.', color=discord.Color.dark_green())  # Generate Discord embed
+    newsembed.set_author(name='Escape from Tarkov')
     newsembed.set_thumbnail(
         url='https://web-store.escapefromtarkov.com/themes/eft/images/bs_logo.png')
     newsembed.set_image(
