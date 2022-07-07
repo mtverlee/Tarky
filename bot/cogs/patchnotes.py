@@ -59,14 +59,16 @@ class PatchNotes(commands.Cog):
                         "SELECT id FROM patchnotes WHERE patch_id = %s", (link_element['href'],))  # Get a list of updates from the database to see if we already have processed it
                     rows = cursor.rowcount
                     if rows > 0:
-                        print('Skipped: ', link_element['href'])
+                        link = link_element['href']
+                        print('Skipped: {link}')
                         pass
                     else:  # If we haven't processed the update, add it to the database
                         date = datetime.datetime.now()
                         cursor.execute(
                             "INSERT INTO patchnotes (patch_id, url, date) VALUES (%s, %s, %s)", (link_element['href'], url, date,))
                         connection.commit()  # Write changes to database
-                        print('Added: ', link_element['href'])
+                        link = link_element['href']
+                        print('Added: {link}')
                         # Get the content of the update
                         notes_page = requests.get(url)
                         notes_soup = BeautifulSoup(
@@ -88,11 +90,12 @@ class PatchNotes(commands.Cog):
                             try:
                                 channel = self.bot.get_channel(int(row[0]))
                                 await channel.send(embed=embed)
-                                print("Message: %s sent to channel %s " %
-                                      (link_element['href'], str(row[0])))
+                                link = link_element['href']
+                                print(
+                                    f'Message: {link} sent to channel {str(row[0])}')
                             except:
-                                print("Error sending message to channel %s " %
-                                      str(row[0]))
+                                print(
+                                    f'Error sending message to channel: {str(row[0])}')
                                 pass
         cursor.close()  # Close cursor
         connection.close()  # Close connection to database

@@ -35,7 +35,7 @@ def connectToDatabase():
 # When the bot is ready, run this function
 @bot.event
 async def on_ready():
-    print("Bot: ", f'{bot.user}')
+    print(f'Bot: {bot.user}')
     # Set the bot's activity
     await bot.change_presence(activity=discord.Game(name='Watching for patch notes!'))
 
@@ -54,7 +54,7 @@ async def on_guild_join(guild):
         cursor.close()
         connection.close()
         # If the guild is already in the database, skip it and notify the user
-        print(f'Skipped guild:  {guild.name} ({guild.id})')
+        print(f'Skipped guild: {guild.name} ({guild.id})')
     else:
         cursor.execute("INSERT INTO guilds (guild_id, name, date) VALUES (%s, %s, %s)",
                        (guild.id, guild.name, date))
@@ -62,7 +62,7 @@ async def on_guild_join(guild):
         cursor.close()
         connection.close()
         # If the guild is not in the database, add it and notify the user
-        print(f'Joined a new guild:  {guild.name} ({guild.id})')
+        print(f'Joined a new guild: {guild.name} ({guild.id})')
 
 
 # When the bot leaves a server, run this function
@@ -85,12 +85,12 @@ async def on_guild_remove(guild):
         cursor.close()
         connection.close()
         # If the guild is in the database, remove it and corresponding channels, then notify the user
-        print(f'Removed guild:  {guild.name} ({guild.id})')
+        print(f'Removed guild: {guild.name} ({guild.id})')
     else:
         cursor.close()
         connection.close()
         # If the guild is not in the database, skip it and notify the user
-        print(f'Skipped removing guild:  {guild.name} ({guild.id})')
+        print(f'Skipped removing guild: {guild.name} ({guild.id})')
 
 
 # Set up add channel command
@@ -104,7 +104,7 @@ async def tarkyadd(ctx, channel):
     rows = cursor.rowcount
     if rows > 0:
         # If we already added the channel, tell the user
-        print('Skipped adding channel: ', channel)
+        print(f'Skipped adding channel: {channel}')
         await ctx.respond("Channel already added!")
     else:
         date = datetime.datetime.now()
@@ -116,7 +116,7 @@ async def tarkyadd(ctx, channel):
         connection.close()
         # Tell the user the channel was added'
         new_channel = bot.get_channel(int(channel))
-        print('Added channel: ', channel)
+        print(f'Added channel: {channel}')
         await new_channel.send("This channel will now get patch notes from Escape from Tarkov!")
         await ctx.respond(f'Added channel {channel} to the list of channels to watch for patch notes!')
 
@@ -131,7 +131,7 @@ async def tarkyremove(ctx, channel):
     rows = cursor.rowcount
     if rows == 0:
         # If we can't find the channel, tell the user
-        print('Skipped removing channel: ', channel)
+        print(f'Skipped removing channel: {channel}')
         await ctx.respond("Channel not found!")
     else:
         # If we have added the channel, remove it from the database
@@ -141,7 +141,7 @@ async def tarkyremove(ctx, channel):
         cursor.close()
         connection.close()
         # Tell the user the channel was removed
-        print('Removed channel: ', channel)
+        print(f'Removed channel: {channel}')
         await ctx.respond(f'Removed channel {channel} from the list of channels to watch for patch notes!')
 
 
@@ -172,7 +172,7 @@ async def tarkylast(ctx):
         url='https://web-store.escapefromtarkov.com/themes/eft/images/bs_logo.png')
     embed.set_image(
         url='https://web-store.escapefromtarkov.com/themes/eft/images/logo.png')
-    print(f'Sent {ctx.author.name} last patch notes: {title_element}')
+    print(f'Sent {ctx.author.name} last patch notes: {title_element.text}')
     await ctx.respond(embed=embed)  # Send the embed back to the user
 
 
@@ -185,6 +185,7 @@ async def tarkynews(ctx):
         url='https://web-store.escapefromtarkov.com/themes/eft/images/bs_logo.png')
     newsembed.set_image(
         url='https://web-store.escapefromtarkov.com/themes/eft/images/logo.png')
+    print(f'Sent {ctx.author.name} news: News')
     await ctx.respond(embed=newsembed)  # Send the embed back to the user
 
 # Run bot
