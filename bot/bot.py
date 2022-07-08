@@ -97,7 +97,9 @@ async def on_guild_remove(guild):
 # Set up add channel command
 @bot.slash_command(name="tarkyadd", description="Add a channel to the database")
 async def tarkyadd(ctx, channel):
-    if ctx.author.guild_permissions.administrator:
+    if channel is None:
+        ctx.respond("Channel not found!")
+    elif ctx.author.guild_permissions.administrator:
         guild = int(ctx.guild.id)
         connection = connectToDatabase()
         cursor = connection.cursor()
@@ -128,7 +130,9 @@ async def tarkyadd(ctx, channel):
 # Set up add channel command
 @bot.slash_command(name="tarkyremove", description="Remove a channel from the database")
 async def tarkyremove(ctx, channel):
-    if ctx.author.guild_permissions.administrator:
+    if channel is None:
+        ctx.respond("Channel not found!")
+    elif ctx.author.guild_permissions.administrator:
         connection = connectToDatabase()
         cursor = connection.cursor()
         cursor.execute(
