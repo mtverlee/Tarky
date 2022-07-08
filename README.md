@@ -16,7 +16,7 @@ A simple bot to automatically post Escape from Tarkov patch notes in a Discord s
 - Set up a Heroku project and set the `DISCORD_TOKEN` environment variable for your server.
 - Add a Heroku Postgres resource to the project you just created and set your `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, and `POSTGRES_DATABASE` environment variables accordingly.
 - Run `python3 setup.py` using the same local environment variables to set up the database tables.
-- Run `/tarkychannel <channelID>` to add your channel or thread to the bot. This channel will get updates as patch notes become available.
+- Run `/tarkyadd <channelID>` to add your channel or thread to the bot. This channel will get updates as patch notes become available.
 - Deploy the project!
 
 ## Usage
