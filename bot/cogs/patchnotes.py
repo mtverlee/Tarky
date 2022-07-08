@@ -82,7 +82,7 @@ class PatchNotes(commands.Cog):
                                          for index in range(0, len(notes_elements.text), 1500)]  # Limit the content of the update to 1500 characters
                         notes = notes_strings[0] + '...'
                         embed = discord.Embed(title=link_element.text, url=url,
-                                              description=notes, color=discord.Color.greyple())  # Generate the Discord embed
+                                              description=notes, color=discord.Color.yellow())  # Generate the Discord embed
                         embed.set_thumbnail(
                             url='https://web-store.escapefromtarkov.com/themes/eft/images/bs_logo.png')
                         embed.set_image(
